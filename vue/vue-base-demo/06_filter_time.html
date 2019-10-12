@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{ time }}
+        <br /> {{ time | datefmt }}
+    </div>
+
+    <div id="app1">
+        {{ time | datefmt }}
+    </div>
+
+    <div>时间格式化</div>
+
+    <div id="app2">
+        2019-09-25T14:06:51.618Z
+        <br /> {{ '2019-09-25T14:06:51.618Z' | dateFormat }}
+    </div>
+</body>
+<script>
+
+    // 定义一个名称为 datafmt的全局过滤器
+    Vue.filter('datefmt', function (input) {
+        // 过滤器的逻辑：将input的值格式化成 yyyy-MM-dd 字符串输出
+        var res = '';
+        var year = input.getFullYear();
+        var month = input.getMonth() + 1;
+        var day = input.getDate();
+
+        res = year + '-' + month + '-' + day;
+
+        return res;
+    });
+
+    new Vue({
+        el: '#app1',
+        data: {
+            time: new Date()
+        }
+    })
+
+    new Vue({
+        el: '#app',
+        data: {
+            time: new Date()
+        }
+    });
+
+
+    Vue.filter('dateFormat', function (dateStr, pattern) {
+            // 根据给定的时间字符串，得到特定的时间
+            var dt = new Date(dateStr)
+
+            //   yyyy-mm-dd
+            var y = dt.getFullYear()
+            var m = (dt.getMonth() + 1).toString().padStart(2, '0')
+            var d = dt.getDate().toString().padStart(2, '0')
+
+            if (pattern && pattern.toLowerCase() === 'yyyy-mm-dd') { //如果调用过滤器的参数写的是 yyyy-mm-dd，那就按照这种  yyyy-mm-dd 的格式写
+                //这里用的是字符串模板
+                return `${y}-${m}-${d}`
+            } else { //否则（比如说调用过滤器时不写参数），后面就补上 时-分-秒
+                var hh = dt.getHours().toString().padStart(2, '0')
+                var mm = dt.getMinutes().toString().padStart(2, '0')
+                var ss = dt.getSeconds().toString().padStart(2, '0')
+
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss} ~~~~~~~`
+            }
+    })
+
+    new Vue({
+        el: '#app2',
+        data: {
+            time: new Date()
+        }
+    });
+
+
+
+</script>
+
+</html>
