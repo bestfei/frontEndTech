@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>v-bind 用于绑定属性</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+  <style>
+        .styleRed {color:red}
+        .styleBlue {color:blue}
+  </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- vue的写法4：直接使用对象-->
+        <!-- 在为 class 使用 v-bind 绑定 对象的时候，对象的属性是类名。由于 对象的属性名可带引号，也可不带引号，所以 这里我没写引号；  属性的值 是一个标识符 -->
+        <h1 :class="classObj">在为 class 使用 v-bind 绑定 对象的时候，对象的属性是类名</h1>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                classObj:{styleRed:false, styleBlue:true}
+            }
+        });
+    </script>
+</body>
+
+
+
+</html>
