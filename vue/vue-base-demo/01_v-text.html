@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>插值表达式 {{}}</title>
+    <!--1、导入Vue的包-->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+<body>
+<!--这个div区域就是MVVM中的 View-->
+<div> 可以在控制台输入myVue.$data.name = 'haha'，页面会自动更新name的值。
+    <br/>
+    下面是 #div1 区域
+</div>
+<div id="div1">
+    {{name}}
+</div>
+
+<!-- v-cloak：保持和元素实例的关联，直到结束编译后自动消失。 -->
+<!-- 区别1： v-text 没有闪烁的问题，因为它是放在属性里的。
+区别2 :插值表达式只会替换自己的这个占位符，并不会把整个元素的内容清空。v-text 会覆盖元素中原本的内容。 -->
+
+<div>
+    v-text可以将一个变量的值渲染到指定的元素中,下面是 #div2 区域
+</div>
+<div id="div2">
+    <span v-text="name"></span>
+ </div>
+
+</body>
+
+<script>
+    // 2、创建一个Vue的实例
+    //new出来的对象就是MVVM中的 View Module（调度者）
+    var myVue = new Vue({
+        el: '#div1', //当前vue对象将接管上面的div1区域
+        data: {//data就是MVVM中的 module
+            name: 'name 注入 #div1'
+        }
+    });
+
+    new Vue({
+    el: '#div2',
+    data: {
+      name: 'this is div2 by v-text'
+    }
+  });
+</script>
+</html>

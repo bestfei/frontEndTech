@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>v-on 事件绑定机制</title>
+  <!--vue的版本：2.5.15-->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+  <!--这个div区域就是MVVM中的 View-->
+  <div id="div1">
+    <!-- 给button节点绑定按钮的点击事件 -->
+    {{name}}
+    <br/>
+    <button v-on:click="change">改变name的值</button>
+  </div>
+
+
+</body>
+
+<script>
+  //new出来的对象就是MVVM中的 View Module
+  var myVue = new Vue({
+    el: '#div1', //当前vue对象将接管上面的div区域
+    data: { //data就是MVVM中的 module
+      name: 'v-on:click：点击事件'
+    },
+
+    //注意，下方这个 `methods` 是Vue中定义方法的关键字，不能改
+    //这个 methods 属性中定义了当前Vue实例所有可用的方法
+    methods: {
+      change: function() { //上面的button按钮的点击事件
+        this.name += '1';
+      }
+    }
+  });
+</script>
+
+</html>
