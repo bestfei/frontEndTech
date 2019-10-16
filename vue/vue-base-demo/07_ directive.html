@@ -25,9 +25,9 @@
             // 意思是说，我们可以把样式的代码写到bind中去（即使这个时候，dom元素还没有被创建）
             bind: function (el, binding) { // 每当指令绑定到元素上的时候，会立即执行这个 bind 函数，【只执行一次】
 
-                console.log(binding.name); //打印结果：color
-                console.log(binding.value); //打印结果：green
-                console.log(binding.expression);  //'green'
+                console.log("binding.name:"+binding.name); //打印结果：color
+                console.log("binding.value:"+binding.value); //打印结果：green
+                console.log("binding.expression:"+binding.expression);  //'green'
 
                 el.style.color = binding.value// 通过bining拿到v-color中传递过来的值
 
