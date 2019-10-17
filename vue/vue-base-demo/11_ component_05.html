@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <!-- 定义组件的模板 -->
+    <template id="myAccount">
+        <div>
+            <!-- 在组件的模板中，调用本组件中的data -->
+            {{myData}} - {{myData2}}
+            <a href="#" v-on:click="login">登录</a>
+            <h2>登录页面</h2>
+            <h3>注册页面</h3>
+
+        </div>
+    </template>
+
+    <div id="app">
+        <!-- 第一次调用组件 -->
+        <account> </account>
+        <!-- 第二次调用组件 -->
+        <account> </account>
+    </div>
+
+    <script>
+
+        //定义、注册组件
+        Vue.component('account', {
+            template: '#myAccount',
+            //组件中的 data
+            //【注意】组件中的data，不再是对象，而是一个方法（否则报错）；而且这个方法内部，还必须返回一个对象才行
+            // 组件中 的data 数据,使用方式,和实例中的 data 使用方式完全一样!!!
+            data: function () {
+                return {
+                    myData: 'best',
+                    myData2: 'fei'
+                }
+            },
+            //组件中的 method
+            methods: {
+                login: function () {
+                    alert('login操作');
+                }
+            }
+        });
+
+        new Vue({
+            el: '#app'
+        });
+    </script>
+</body>
+
+</html>
