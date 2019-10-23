@@ -45,3 +45,29 @@ var testPromise = function(){
         console.log(rejected.message);
     });
 }
+
+
+//通过前端调用把 isShopOpen 值传入
+var buyCloth2 = function(isShopOpen){
+    //then必须返回一个promise，如果是传参形式就return
+    return new Promise(function(resolve,reject){
+        if(isShopOpen){
+            var cloth = {
+                color:'red',
+                price:'$120'
+            };
+            resolve(cloth);
+        }else{
+            var err = new Error("the shop is closed");
+            reject(err);
+        }
+    });
+}
+
+var testPromise2 = function(isOpen){
+    buyCloth2(isOpen).then(function(fulfilled){
+        console.log(fulfilled);
+    }).catch(function(rejected){
+        console.log(rejected.message);
+    });
+}
