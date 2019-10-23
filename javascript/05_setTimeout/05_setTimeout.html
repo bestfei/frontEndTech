@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script src="b.js"></script>
+</head>
+<body>
+    <p>
+    js的单线程机制，当程序执行到setTimeout时，会跳过setTimeout需要等候的时间，执行后面的程序，
+    到了相应的时间后，js才把setTimeout的程序放到队列中.
+    至于会不会在准确的时间去执行setTimeout，这是说不准的，因为这要等之前就正在执行的程序执行完才轮到setTimeout的执行，
+    所以一般情况下，setTimeout的程序一般会在所设定的时间之后才执行。
+    </p>
+
+    <button type="button" onclick='testSetTimeout()'>testSetTimeout</button>
+
+    <p>Promise</p>
+    <button type="button" onclick='testPromise()'>testPromise</button>
+
+</body>
+</html>
