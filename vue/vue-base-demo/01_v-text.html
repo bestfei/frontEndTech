@@ -7,25 +7,35 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 </head>
 <body>
-<!--这个div区域就是MVVM中的 View-->
-<div> 可以在控制台输入myVue.$data.name = 'haha'，页面会自动更新name的值。
-    <br/>
-    下面是 #div1 区域
-</div>
-<div id="div1">
-    {{name}}
-</div>
+    <!--这个div区域就是MVVM中的 View-->
+    <div> 可以在控制台输入myVue.$data.name = 'haha'，页面会自动更新name的值。
+        <br/>
+        下面是 #div1 区域
+    </div>
+    <div id="div1">
+        {{name}}
+    </div>
 
-<!-- v-cloak：保持和元素实例的关联，直到结束编译后自动消失。 -->
-<!-- 区别1： v-text 没有闪烁的问题，因为它是放在属性里的。
-区别2 :插值表达式只会替换自己的这个占位符，并不会把整个元素的内容清空。v-text 会覆盖元素中原本的内容。 -->
+    <!-- v-cloak：保持和元素实例的关联，直到结束编译后自动消失。 -->
+    <!-- 区别1： v-text 没有闪烁的问题，因为它是放在属性里的。
+    区别2 :插值表达式只会替换自己的这个占位符，并不会把整个元素的内容清空。v-text 会覆盖元素中原本的内容。 -->
 
-<div>
-    v-text可以将一个变量的值渲染到指定的元素中,下面是 #div2 区域
-</div>
-<div id="div2">
-    <span v-text="name"></span>
- </div>
+    <div>
+        v-text可以将一个变量的值渲染到指定的元素中,下面是 #div2 区域
+    </div>
+    <div id="div2">
+        <span v-text="name"></span>
+    </div>
+
+
+    <div>
+        使用 Object.freeze()，这会阻止修改现有的属性，也意味着响应系统无法再追踪变化。
+    </div>
+    <div id="div3">
+        <p>{{ foo }}</p>
+        <!-- 这里的 `foo` 不会更新！ -->
+        <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
 
 </body>
 
@@ -39,11 +49,23 @@
         }
     });
 
+
+    var obj = {
+            foo: 'bar'
+    }
+    //Object.freeze(obj);
+    var myVueDiv3 = new Vue({
+        el: '#div3', 
+        data: this.obj
+    });
+
     new Vue({
     el: '#div2',
     data: {
       name: 'this is div2 by v-text'
     }
+
+    
   });
 </script>
 </html>

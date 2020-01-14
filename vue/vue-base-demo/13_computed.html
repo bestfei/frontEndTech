@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>methods & computed</title>
+  <style>
+  </style>
+</head>
+
+<body>
+  <div id="demo">
+    <div>computed:{{ fullName }} - {{ now }}</div>
+    <div>methods:{{ fullName2() }} - {{ now2() }}</div>
+    <!-- <div><input type="submit" v-on:click="methodsNow()" value="methodsNow"></div>
+    <div><input type="submit" v-on:click="computedNow" value="computedNow"></div> -->
+  </div>
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+<script>
+var vm = new Vue({
+  el: '#demo',
+  data: {
+    firstName: 'firstName',
+    lastName: 'lastName'
+  },
+  computed: {
+    fullName: function () {
+      return this.firstName + ' ' + this.lastName
+    },
+    now: function () {
+      return Date.now()
+    },
+    computedNow: function () {
+      alert("computedNow:"+this.now)
+    }
+  },
+  methods: {
+    fullName2: function () {
+      return this.firstName + ' ' + this.lastName
+    },
+    now2: function () {
+      return Date.now()
+    },
+    methodsNow: function () {
+      alert("methodsNow:"+this.now2())
+    }
+
+  }
+})
+</script>
+
+</html>
