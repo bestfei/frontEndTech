@@ -1,0 +1,171 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>v-bind</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        {{message}} - {{ list }}
+        <div>1、原身</div>
+        <ul>
+            <li v-for="item in list">
+                <div>
+                    <span v-if="item.del">{{item.title}}</span>
+                    <span v-else style="text-decoration: line-through;">{{item.title}}</span>
+                    <button v-show="!item.del">删除</button>
+                </div>
+            </li>
+        </ul> 
+        <div>2、组件</div> 
+        <!-- 使用todo-item组件，将title和del变量来自于item  -->
+        <ul>
+            <todo-item v-for="item in list" :title="item.title" :del="item.del"></todo-item>
+        </ul>
+        <div>3、组件加强</div> 
+        <todo-list></todo-list>
+
+        <div>4、原身dom绑定事件</div> 
+        <ul>
+            <clickevent v-for="item in list" :title="item.title" :del="item.del"></clickevent-item>
+        </ul>
+        <div>5、组件绑定事件</div> 
+        <todo-list-clickevent></todo-list-clickevent>
+
+
+    </div>
+
+    <script>
+        //注册组件 todo-item
+        //在template模版字符串中，使用两个变量title和del
+        //在props属性声明中，声明两个变量title和del
+        Vue.component('todo-item',{
+            //属性声明
+            props:{
+                title: String,
+                del: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            //模版字符串
+            template:`
+                <li>
+                    <div>
+                        <span v-if="del">{{title}}</span>
+                        <span v-else style="text-decoration: line-through;">{{title}}</span>
+                        <button v-show="!del" @click="handleClick">删除</button>
+                    </div>
+                </li>`
+            ,
+            data : function (){
+                return {}
+            },
+            methods : {
+                //for todo-list-clickevent，抛出delete事件，并且传递出来this.title
+                handleClick(){
+                    this.$emit('delete',this.title)
+                }
+            }
+        })
+
+        Vue.component('todo-list',{
+            template:`
+            <ul>
+                <todo-item v-for="item in list" :title="item.title" :del="item.del"></todo-item>
+            </ul>
+            `,
+            data: function(){
+                return {
+                    list : [{
+                        title: 'PH 002',
+                        del : true
+                    },{
+                        title: 'ID 002',
+                        del : false 
+                    }]
+                }
+            }
+
+        })
+
+
+        Vue.component('clickevent',{
+            //属性声明
+            props:{
+                title: String,
+                del: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            //模版字符串
+            template:`
+                <li>
+                    <div>
+                        <span v-if="del">{{title}}</span>
+                        <span v-else style="text-decoration: line-through;">{{title}}</span>
+                        <button v-show="!del" @click="handleClick">删除</button>
+                    </div>
+                </li>`
+            ,
+            data : function (){
+                return {}
+            },
+            methods : {
+                handleClick(){
+                    console.log('click clickevent')
+                }
+
+            }
+        })
+
+
+        Vue.component('todo-list-clickevent',{
+            //绑定delete事件
+            template:`
+            <ul>
+                <todo-item @delete="handleDelete" v-for="item in list" :title="item.title" :del="item.del"></todo-item>
+            </ul>
+            `,
+            data: function(){
+                return {
+                    list : [{
+                        title: 'PH 002',
+                        del : true
+                    },{
+                        title: 'ID 002',
+                        del : false 
+                    }]
+                }
+            },
+            methods: {
+                handleDelete(val){
+                    console.log("click todo-list-clickevent",val)
+                }
+            }
+
+        })
+
+
+        // new Vue 一个实例
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                message : 'test',
+                list : [{
+                    title: 'PH',
+                    del : true
+                },{
+                    title: 'ID',
+                    del : false 
+                }]
+            }
+        })
+
+    </script>
+</body>
+
+</html>
