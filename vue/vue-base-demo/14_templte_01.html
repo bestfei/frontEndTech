@@ -9,6 +9,7 @@
 <body>
     <div id="app">
         {{message}} - {{ list }}
+
         <div>1、原身</div>
         <ul>
             <li v-for="item in list">
@@ -19,11 +20,13 @@
                 </div>
             </li>
         </ul> 
+
         <div>2、组件</div> 
         <!-- 使用todo-item组件，将title和del变量来自于item  -->
         <ul>
             <todo-item v-for="item in list" :title="item.title" :del="item.del"></todo-item>
         </ul>
+
         <div>3、组件加强</div> 
         <todo-list></todo-list>
 
@@ -31,8 +34,39 @@
         <ul>
             <clickevent v-for="item in list" :title="item.title" :del="item.del"></clickevent-item>
         </ul>
+
         <div>5、组件绑定事件</div> 
         <todo-list-clickevent></todo-list-clickevent>
+
+        <div>6、slot</div> 
+        <todo-list-slot>
+            <todo-item @delete="handleDelete" v-for="item in list" :title="item.title" :del="item.del"></todo-item>
+        </todo-list-slot>
+
+        <div>7、slot具名插槽</div> 
+        <ul>
+            <todo-item2 @delete="handleDelete" v-for="item in list" :title="item.title" :del="item.del">
+                <template v-slot:pre-icon>
+                    <span>前置插槽</span>
+                </template>
+                <template v-slot:suf-icon>
+                    <span>后置插槽</span>
+                </template>
+            </todo-item2>
+        </ul>
+
+
+        <div>8、插槽传值</div>
+        <todo-list3>
+            <todo-item3 @delete="handleDelete" v-for="item in list" :title="item.title" :del="item.del">
+                <template v-slot:pre-icon="{value}">
+                    <span>前置插槽 {{value}}</span>
+                </template>
+                <template v-slot:suf-icon>
+                    <span>后置插槽</span>
+                </template>
+            </todo-item3>
+        </todo-list3>
 
 
     </div>
@@ -80,15 +114,14 @@
             data: function(){
                 return {
                     list : [{
-                        title: 'PH 002',
+                        title: 'PH todo-list',
                         del : true
                     },{
-                        title: 'ID 002',
+                        title: 'ID todo-list',
                         del : false 
                     }]
                 }
             }
-
         })
 
 
@@ -133,10 +166,10 @@
             data: function(){
                 return {
                     list : [{
-                        title: 'PH 002',
+                        title: 'PH clickevent',
                         del : true
                     },{
-                        title: 'ID 002',
+                        title: 'ID clickevent',
                         del : false 
                     }]
                 }
@@ -150,18 +183,124 @@
         })
 
 
+        Vue.component('todo-list-slot',{
+            //绑定delete事件
+            template:`
+            <ul>
+                <slot></slot>
+            </ul>
+            `,
+            data: function(){
+                return {
+
+                }
+            }
+
+        })
+
+
+        Vue.component('todo-item2',{
+            //属性声明
+            props:{
+                title: String,
+                del: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            //模版字符串
+            template:`
+                <li>
+                    <slot name="pre-icon"></slot>
+                    <span v-if="del">{{title}}</span>
+                    <span v-else style="text-decoration: line-through;">{{title}}</span>
+                    <slot name="suf-icon"></slot>
+                    <button v-show="!del" @click="handleClick">删除</button>
+                </li>`
+            ,
+            data : function (){
+                return {}
+            },
+            methods : {
+                //handleClick事件触发，抛出delete事件，并且传递出来this.title
+                handleClick(){
+                    this.$emit('delete','todo-item2 '+this.title)
+                }
+            }
+        })
+
+
+        Vue.component('todo-list3',{
+            template:`
+            <ul>
+                <slot></slot>
+            </ul>
+            `,
+            data: function(){
+                return {
+                    list : [{
+                        title: 'PH todo-list3',
+                        del : true
+                    },{
+                        title: 'ID todo-list3',
+                        del : false 
+                    }]
+                }
+            }
+        })
+
+
+        Vue.component('todo-item3',{
+            //属性声明
+            props:{
+                title: String,
+                del: {
+                    type: Boolean,
+                    default: false
+                }
+            },
+            //模版字符串
+            template:`
+                <li>
+                    <slot name="pre-icon" :value="todoitem3value"></slot>
+                    <span v-if="del">{{title}}</span>
+                    <span v-else style="text-decoration: line-through;">{{title}}</span>
+                    <slot name="suf-icon"></slot>
+                    <button v-show="!del" @click="handleClick">删除</button>
+                    <slot name="default-icon">this is default slot</slot>
+                </li>`
+            ,
+            data : function (){
+                return {
+                    todoitem3value: Math.random()
+                }
+            },
+            methods : {
+                //抛出delete事件，并且传递出来this.title
+                handleClick(){
+                    this.$emit('delete','todo-item3 ' + this.title)
+                }
+            }
+        })
+
+
         // new Vue 一个实例
         var vm = new Vue({
             el:'#app',
             data:{
                 message : 'test',
                 list : [{
-                    title: 'PH',
+                    title: 'vue PH',
                     del : true
                 },{
-                    title: 'ID',
+                    title: 'vue ID',
                     del : false 
                 }]
+            },
+            methods: {
+                handleDelete(val){
+                    console.log("vue click handleDelete:",val)
+                }
             }
         })
 
